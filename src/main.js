@@ -13,6 +13,13 @@ const vuetify = createVuetify({
   theme: {
     defaultTheme: 'light',
   },
+  defaults: {
+    VBtn: {
+      color: 'black',
+      variant: 'outlined',
+      class: 'mb-1'
+    }
+  }
 })
 
 createApp(App).use(vuetify).mount('#app')
