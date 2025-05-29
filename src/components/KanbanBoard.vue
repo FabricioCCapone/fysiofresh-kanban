@@ -1,11 +1,11 @@
 <template>
 
-    <v-container>
+  <v-container>
     <v-sheet class="mx-auto" width="300">
       <!-- Used the v-form with fast-fail rule to avoid invalid input -->
-       <!-- I send the input to addTask(task, description) to generate a new card  -->
+      <!-- I send the input to addTask(task, description) to generate a new card  -->
       <v-form fast-fail @submit.prevent="addTask">
-        <v-text-field v-model="newTask" :rules="taskRules" label="Task" ></v-text-field>
+        <v-text-field v-model="newTask" :rules="taskRules" label="Task"></v-text-field>
         <v-text-field v-model="newDescription" :rules="descriptionRules" label="Description"></v-text-field>
         <v-btn class="mt-2" type="submit" block>Add Task</v-btn>
       </v-form>
@@ -19,7 +19,6 @@
         <v-card v-for="card in column.cards" :key="card.id" class="mb-3" :color="column.color">
           <v-card-title>{{ card.title }}</v-card-title>
           <v-card-text>{{ card.description }}</v-card-text>
-          <!-- <v-btn density="compact" @click.prevent="editCard" block>Edit</v-btn> -->
           <v-btn density="compact" @click.prevent="deleteTask(card.id)" block>Delete</v-btn>
         </v-card>
       </v-col>
@@ -65,14 +64,12 @@ const board = ref([
 ]
 )
 
-// Rules to prevent empty task title or that the input is too long
+// Rules to prevent that the input is too long
 const taskRules = [
-  v => !!v || 'Task title is required',
   v => v.length <= 50 || 'Task title must be under 50 characters'
 ]
-// Rules to prevent empty description title or that the input is too long
+// Rules to prevent that the input is too long
 const descriptionRules = [
-  v => !!v || 'Description is required',
   v => v.length <= 200 || 'Description must be under 200 characters'
 ]
 
@@ -80,7 +77,7 @@ const descriptionRules = [
 // and generates an unique Id, and asigns the title and description.
 const addTask = () => {
   if (newTask.value.trim() && newDescription.value.trim()) {
-      board.value[0].cards.push({
+    board.value[0].cards.push({
       id: Date.now(),
       title: newTask.value,
       description: newDescription.value
@@ -97,7 +94,7 @@ const deleteTask = (taskId) => {
     const index = column.cards.findIndex(card => card.id === taskId)
     if (index !== -1) {
       column.cards.splice(index, 1)
-      break 
+      break
     }
   }
 }
