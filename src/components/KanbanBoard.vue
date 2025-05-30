@@ -1,5 +1,5 @@
 <template>
-  <appHeader/>
+  <appHeader />
   <v-container class="mt-4">
     <v-row>
       <v-col v-for="(column, colIndex) in board" :key="colIndex" cols="3" class="column with-border">
@@ -16,16 +16,16 @@
               <template v-else>
                 <v-card-title>{{ card.title }}</v-card-title>
                 <v-card-text>{{ card.description }}</v-card-text>
-                <v-btn @click="editingTaskId = card.id">Edit</v-btn>
-                <v-btn @click="deleteTask(card.id)">Delete</v-btn>
+                <v-btn @click="editingTaskId = card.id" color="primary">Edit</v-btn>
+                <v-btn @click="deleteTask(card.id)" color="primary">Delete</v-btn>
               </template>
             </v-card>
           </template>
         </draggable>
       </v-col>
     </v-row>
-    <AddTaskForm @add-card="addCard" />
   </v-container>
+  <AddTaskForm @add-card="addCard" />
 </template>
 
 <script setup>
