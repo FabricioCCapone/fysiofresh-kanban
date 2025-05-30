@@ -1,16 +1,9 @@
-<script>
+<script setup>
 import KanbanBoard from './components/KanbanBoard.vue'
-
-export default {
-  components: {
-    KanbanBoard
-  }
-}
 </script>
 
 <template>
   <v-app>
-    <KanbanBoard/>
+    <KanbanBoard />
   </v-app>
 </template>
-

@@ -12,12 +12,13 @@ const vuetify = createVuetify({
   directives,
   theme: {
     defaultTheme: 'light',
-  },
-  defaults: {
-    VBtn: {
-      color: 'black',
-      variant: 'outlined',
-      class: 'mb-1'
+    themes: {
+      light: {
+        colors: {
+          primary: '#3C0F0F',
+          background: '#F7F0EA',
+        }
+      }
     }
   }
 })

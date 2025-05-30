@@ -1,36 +1,15 @@
 <template>
+  <appHeader/>
   <v-container class="mt-4">
     <v-row>
-      <v-col
-        v-for="(column, colIndex) in board"
-        :key="colIndex"
-        cols="3"
-        class="column with-border"
-      >
+      <v-col v-for="(column, colIndex) in board" :key="colIndex" cols="3" class="column with-border">
         <h2 class="text-center">{{ column.name }}</h2>
-
-        
-        <draggable
-          v-model="column.cards"
-          :group="'tasks'"
-          item-key="id"
-          class="draggable-list"
-        >
+        <draggable v-model="column.cards" :group="'tasks'" item-key="id" class="draggable-list">
           <template #item="{ element: card }">
             <v-card :key="card.id" class="mb-3" :color="column.color">
               <template v-if="editingTaskId === card.id">
-                <v-text-field
-                  v-model="card.title"
-                  :rules="titleRules"
-                  label="Title"
-                  dense
-                />
-                <v-textarea
-                  v-model="card.description"
-                  :rules="descriptionRules"
-                  label="Description"
-                  dense
-                />
+                <v-text-field v-model="card.title" :rules="titleRules" label="Title" dense />
+                <v-textarea v-model="card.description" :rules="descriptionRules" label="Description" dense />
                 <v-btn @click="editingTaskId = null">Done</v-btn>
               </template>
 
@@ -45,18 +24,17 @@
         </draggable>
       </v-col>
     </v-row>
-
-    <!-- Form -->
     <AddTaskForm @add-card="addCard" />
   </v-container>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import draggable from 'vuedraggable'
 import AddTaskForm from './AddTaskForm.vue'
+import appHeader from './appHeader.vue'
 
-const board = ref([
+const defaultBoard = [
   {
     name: 'Backlog',
     color: '#FFF9C4',
@@ -77,7 +55,19 @@ const board = ref([
     color: '#FFE0B2',
     cards: []
   }
-])
+]
+
+//If localStorage has the item 'board', we save it on saveBoard.
+const savedBoard = localStorage.getItem('board')
+const board = ref(savedBoard ? JSON.parse(savedBoard) : defaultBoard)
+
+watch(
+  board,
+  (newVal) => {
+    localStorage.setItem('board', JSON.stringify(newVal))
+  },
+  { deep: true }
+)
 
 const editingTaskId = ref(null)
 
@@ -118,4 +108,3 @@ const descriptionRules = [
   min-height: 300px;
 }
 </style>
-
