@@ -1,9 +1,9 @@
-<template>
+<template class="wrapper">
   <appHeader />
   <v-container class="mt-4">
     <v-row>
       <v-col v-for="(column, colIndex) in board" :key="colIndex" cols="3" class="column with-border">
-        <h2 class="text-center">{{ column.name }}</h2>
+        <h2 class="text-center mb-5">{{ column.name }}</h2>
         <draggable v-model="column.cards" :group="'tasks'" item-key="id" class="draggable-list">
           <template #item="{ element: card }">
             <v-card :key="card.id" class="mb-3" :color="column.color">
@@ -16,8 +16,10 @@
               <template v-else>
                 <v-card-title>{{ card.title }}</v-card-title>
                 <v-card-text>{{ card.description }}</v-card-text>
-                <v-btn @click="editingTaskId = card.id" color="primary">Edit</v-btn>
-                <v-btn @click="deleteTask(card.id)" color="primary">Delete</v-btn>
+                <div class="ms-12">
+                  <v-btn @click="editingTaskId = card.id" color="primary">Edit</v-btn>
+                  <v-btn @click="deleteTask(card.id)" color="primary">Delete</v-btn>
+                </div>
               </template>
             </v-card>
           </template>
@@ -106,5 +108,9 @@ const descriptionRules = [
 
 .draggable-list {
   min-height: 300px;
+}
+
+.buttons{
+  justify-content: space-between;
 }
 </style>
