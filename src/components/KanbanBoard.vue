@@ -8,11 +8,10 @@
           <template #item="{ element: card }">
             <v-card :key="card.id" class="mb-3" :color="column.color">
               <template v-if="editingTaskId === card.id">
-                <v-text-field v-model="card.title" :rules="titleRules" label="Title" dense />
-                <v-textarea v-model="card.description" :rules="descriptionRules" label="Description" dense />
-                <v-btn @click="editingTaskId = null">Done</v-btn>
+                <v-text-field v-model="card.title" :rules="titleRules" label="Title" dense maxlength="50"/>
+                <v-textarea v-model="card.description" :rules="descriptionRules" label="Description" dense maxlength="150"/>
+                <v-btn :disabled="isEditInvalid(card)" @click="editingTaskId = null">Done</v-btn>
               </template>
-
               <template v-else>
                 <v-card-title>{{ card.title }}</v-card-title>
                 <v-card-text>{{ card.description }}</v-card-text>
@@ -30,7 +29,7 @@
   <AddTaskForm @add-card="addCard" />
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, watch } from 'vue'
 import draggable from 'vuedraggable'
 import AddTaskForm from './AddTaskForm.vue'
@@ -59,7 +58,6 @@ const defaultBoard = [
   }
 ]
 
-//If localStorage has the item 'board', we save it on saveBoard.
 const savedBoard = localStorage.getItem('board')
 const board = ref(savedBoard ? JSON.parse(savedBoard) : defaultBoard)
 
@@ -88,12 +86,24 @@ const addCard = (card) => {
 }
 
 const titleRules = [
-  v => v.length <= 50 || 'Task title must be under 50 characters'
+  v => !!v.trim() || 'Title is required',
+  v => v.length >= 3 || 'Title must be at least 3 characters'
 ]
 
 const descriptionRules = [
-  v => v.length <= 200 || 'Description must be under 200 characters'
+  v => !!v.trim() || 'Description is required',
+  v => v.length >= 3 || 'Description must be at least 3 characters'
 ]
+
+function isEditInvalid(card) {
+  const t = card.title.trim()
+  const d = card.description.trim()
+
+  if (!t || t.length < 3) return true
+  if (!d || d.length < 3) return true
+
+  return false
+}
 </script>
 
 <style scoped>

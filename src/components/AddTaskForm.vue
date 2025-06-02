@@ -6,13 +6,13 @@
           <v-form fast-fail @submit.prevent="addCard">
             <v-row align="end">
               <v-col cols="12" sm="4">
-                <v-text-field v-model="newTitle" :rules="titleRules" label="Title" dense />
+                <v-text-field v-model="newTitle" label="Title" dense maxlength="50" counter required/>
               </v-col>
               <v-col cols="12" sm="8">
-                <v-text-field v-model="newDescription" :rules="descriptionRules" label="Description" dense />
+                <v-text-field v-model="newDescription" label="Description" dense maxlength="150" counter required/>
               </v-col>
-              <v-col cols="12" >
-                <v-btn type="submit" color="primary" block class="mt-2">
+              <v-col cols="12">
+                <v-btn :disabled="isAddingInvalid(newTitle, newDescription)" type="submit" color="primary" block class="mt-2">
                   Add Task
                 </v-btn>
               </v-col>
@@ -24,38 +24,33 @@
   </v-container>
 </template>
 
-
 <script setup>
 import { ref } from 'vue'
 
 const newTitle = ref('')
 const newDescription = ref('')
 
-// Rules to prevent that the input is too long
-const titleRules = [
-  v => v.length <= 50 || 'Task title must be under 50 characters'
-]
-// Rules to prevent that the input is too long
-const descriptionRules = [
-  v => v.length <= 200 || 'Description must be under 200 characters'
-]
-
-//Verifies that newTask and newDescription are not empty. If that is the case,
-// generates an unique Id, and asigns the title and description.
-// Then it pushes an object (Card) to Board[0] (Backlog).
-
 const emit = defineEmits(['add-card'])
 
+function isAddingInvalid(title , description) {
+  const t = title.trim()
+  const d = description.trim()
+
+  if (!t || t.length < 3) return true
+  if (!d || d.length < 3) return true
+
+  return false
+}
+
 const addCard = () => {
-  if (newTitle.value.trim() && newDescription.value.trim()) {
-    emit('add-card', {
-      id: Date.now(),
-      title: newTitle.value,
-      description: newDescription.value
-    })
-    newTitle.value = ''
-    newDescription.value = ''
-  }
+  emit('add-card', {
+    id: Date.now(),
+    title: newTitle.value,
+    description: newDescription.value
+  });
+
+  newTitle.value = '';
+  newDescription.value = '';
 }
 </script>
 
