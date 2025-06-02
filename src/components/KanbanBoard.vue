@@ -1,5 +1,5 @@
 <template class="wrapper">
-  <appHeader />
+  <AppHeader />
   <v-container class="mt-4">
     <v-row>
       <v-col v-for="(column, colIndex) in board" :key="colIndex" cols="3" class="column with-border">
@@ -30,11 +30,11 @@
   <AddTaskForm @add-card="addCard" />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, watch } from 'vue'
 import draggable from 'vuedraggable'
 import AddTaskForm from './AddTaskForm.vue'
-import appHeader from './appHeader.vue'
+import AppHeader from './AppHeader.vue'
 
 const defaultBoard = [
   {

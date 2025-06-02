@@ -3,7 +3,6 @@
     <v-row justify="center">
       <v-col cols="12" md="10" lg="8">
         <v-sheet elevation="2" rounded class="pa-4" color="white">
-          <!-- ✅ v-form wraps the entire row and button -->
           <v-form fast-fail @submit.prevent="addCard">
             <v-row align="end">
               <v-col cols="12" sm="4">
@@ -41,8 +40,9 @@ const descriptionRules = [
   v => v.length <= 200 || 'Description must be under 200 characters'
 ]
 
-//Verifies that newTask and newDescription are not empty. If that is the case, pushes an object (Card) to Board[0] (Backlog)
-// and generates an unique Id, and asigns the title and description.
+//Verifies that newTask and newDescription are not empty. If that is the case,
+// generates an unique Id, and asigns the title and description.
+// Then it pushes an object (Card) to Board[0] (Backlog).
 
 const emit = defineEmits(['add-card'])
 
