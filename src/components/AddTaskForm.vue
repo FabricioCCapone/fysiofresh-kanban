@@ -3,7 +3,7 @@
     <v-row justify="center">
       <v-col cols="12" md="10" lg="8">
         <v-sheet elevation="2" rounded class="pa-4" color="white">
-          <v-form fast-fail @submit.prevent="addCard">
+          <v-form fast-fail autocomplete="off" @submit.prevent="addCard">
             <v-row align="end">
               <v-col cols="12" sm="4">
                 <v-text-field v-model="newTitle" label="Title" dense maxlength="50" counter required/>
